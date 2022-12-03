@@ -10,4 +10,4 @@ it shows opening hours day by day and can provide an interactive status line bas
 - implements a timezone 
 
 # Demo
-
+[https://codepen.io/ForceRouge/pen/oNyaBPL](Codepen example)

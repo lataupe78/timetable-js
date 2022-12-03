@@ -12,6 +12,8 @@
  * - provide templating options for i18n and use INTL to name day labels. 
  * - as it uses a lot of ECMASCript 2015 (ES6) features ( class, findIndex, forEach... ), transpile the code for older versions of JS
 */
+
+
 class TimeTable {
 
 
@@ -219,60 +221,65 @@ class TimeTable {
   }
 }
 
-const timetable_status = document.querySelector("#timetable_status");
-const timetable_table = document.querySelector("#timetable_table");
 
-// JSON Object, could be provided from an API
-const days = [
-  {
-    dayWeek: 1,
-    label: "Lundi",
-    hours: [{ start: "8:00", end: "19:00" }]
-  },
+/**
+ * usage 
+ * 
+ */
+// const timetable_status = document.querySelector("#timetable_status");
+// const timetable_table = document.querySelector("table#timetable_table");
 
-  {
-    dayWeek: 2,
-    label: "Mardi",
-    hours: [{ start: "8:00", end: "19:00" }]
-  },
-  {
-    dayWeek: 3,
-    label: "Mercredi",
-    hours: [{ start: "8:00", end: "19:00" }]
-  },
+// // JSON Object, could be provided from an API
+// const days = [
+//   {
+//     dayWeek: 1,
+//     label: "Lundi",
+//     hours: [{ start: "8:00", end: "19:00" }]
+//   },
 
-  {
-    dayWeek: 4,
-    label: "Jeudi",
-    hours: [
-      { start: "8:00", end: "23:00" },
-      { start: "23:50", end: "23:55" }
-    ]
-  },
-  {
-    dayWeek: 5,
-    label: "Vendredi",
-    hours: [{ start: "8:00", end: "19:00" }]
-  },
+//   {
+//     dayWeek: 2,
+//     label: "Mardi",
+//     hours: [{ start: "8:00", end: "19:00" }]
+//   },
+//   {
+//     dayWeek: 3,
+//     label: "Mercredi",
+//     hours: [{ start: "8:00", end: "19:00" }]
+//   },
 
-  {
-    dayWeek: 6,
-    label: "Samedi",
-    hours: [
-      { start: "8:00", end: "13:00" },
-      { start: "15:00", end: "19:00" }
-    ]
-  },
+//   {
+//     dayWeek: 4,
+//     label: "Jeudi",
+//     hours: [
+//       { start: "8:00", end: "23:00" },
+//       { start: "23:50", end: "23:55" }
+//     ]
+//   },
+//   {
+//     dayWeek: 5,
+//     label: "Vendredi",
+//     hours: [{ start: "8:00", end: "19:00" }]
+//   },
 
-  {
-    dayWeek: 0,
-    label: "Dimanche",
-    hours: []
-  }
-];
+//   {
+//     dayWeek: 6,
+//     label: "Samedi",
+//     hours: [
+//       { start: "8:00", end: "13:00" },
+//       { start: "15:00", end: "19:00" }
+//     ]
+//   },
 
-const opening = new TimeTable({
-  tableEl: timetable_table,
-  statusEl: timetable_status,
-  days: days
-});
+//   {
+//     dayWeek: 0,
+//     label: "Dimanche",
+//     hours: []
+//   }
+// ];
+
+// const opening = new TimeTable({
+//   tableEl: timetable_table,
+//   statusEl: timetable_status,
+//   days: days
+// });

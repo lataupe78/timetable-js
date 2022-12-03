@@ -13,9 +13,46 @@
  * - as it uses a lot of ECMASCript 2015 (ES6) features ( class, findIndex, forEach... ), transpile the code for older versions of JS
 */
 
+class HourRange {
+
+  constructor (range, dayWeek = null) {
+    this.isValid = true
+    this.start = this.setTimeParts(range?.start)
+    this.end = this.setTimeParts(range?.end)
+    this.timeInMinutes = 0
+  }
+
+  setTimeParts(timeLabel = "12:00") {
+    console.log({ timeLabel: timeLabel })
+    try {
+    let date = new Date()
+
+    let parts = timeLabel.split(":");
+    let hours = parseInt(parts[0], 10);
+    let minutes = parseInt(parts[1], 10);
+
+    date.setHours(hours, minutes, 0);
+
+    let timeInMinutes = hours * 60 + minutes
+
+    if (timeLabel.length < 5) {
+      timeLabel = '0' + timeLabel
+    }
+
+    return {
+      time: timeInMinutes,
+      hours: hours,
+      minutes: minutes,
+      label: timeLabel
+    };
+    } catch {
+      this.isValid = false
+    }
+  }
+
+}
 
 class TimeTable {
-
 
   /**
    * @constructor
@@ -26,15 +63,16 @@ class TimeTable {
   constructor (params) {
 
     this.days = params?.days;
-    this.tableEl = params?.tableEl;
-    this.statusEl = params?.statusEl;
-
     if (this.days == undefined || this.days.length == 0) {
       throw new Error("days is not defined.");
     }
+
+    this.tableEl = params?.tableEl;
     if (this.tableEl == null) {
       throw new Error("HTMLElement for table is not defined.");
     }
+    
+    this.statusEl = params?.statusEl;
     if (this.statusEl == null) {
       throw new Error("HTMLElement for status is not defined.");
     }
@@ -44,7 +82,9 @@ class TimeTable {
     this.currentHours = null;
     this.hoursRange = new Array();
 
-    this.initHours();
+    this.daysDisplay = new Array();
+
+    this.buildHoursRange();
     this.displayDays();
     this.setStatus();
   }
@@ -57,7 +97,7 @@ class TimeTable {
   displayDays() {
     let html = "<tbody>";
 
-    this.days.forEach((d) => {
+    this.daysDisplay.forEach((d) => {
       console.log(d.label);
       html += `<tr class="timetable__day">
           <td class="timetable__day__label">${d.label}</td>`;
@@ -65,8 +105,8 @@ class TimeTable {
       if (d?.hours && d.hours.length >= 1) {
         d.hours.forEach((h) => {
           html += `<span>
-            <time datetime="${h?.start}">${h?.start}</time>
-            <time datetime="${h?.end}">${h?.end}</time>
+            <time datetime="${h?.start?.label }">${h?.start?.label}</time>
+            <time datetime="${h?.end?.label }">${h?.end?.label}</time>
            </span>`;
         });
       } else {
@@ -81,25 +121,62 @@ class TimeTable {
     this.tableEl.innerHTML = html;
   }
   /**
-   * create a hours range from all hours existing in days
+   * buld a hours range from all hours existing in days
    * for finding the next hour opening easily
    */
-  initHours() {
-    //
+  buildHoursRange() {
+
+    // orderDays by dayWeek so sunday is the last day 
+    let orderDays = [6, 0, 1, 2, 3, 4, 5]
+    this.days = this.days.sort((a, b) => (orderDays[a?.dayWeek] > orderDays[b?.dayWeek])
+      ? 1 : ((orderDays[b?.dayWeek] > orderDays[a?.dayWeek]) ? -1 : 0))
+
     this.days.forEach((d) => {
-      d?.hours?.forEach((h) => {
-        // console.log(h);
+ 
+      let hoursRange = []
+
+      // sanitize hours format so '8:00' outputs as '08:00'
+      d?.hours.map(h => {
+        let hourRange = new HourRange(h)
+        console.log({ hourRange: hourRange })
+        if (hourRange.isValid) {
+          hoursRange.push(hourRange)
+          return  hourRange
+        }  
+      })
+
+      // console.log({ hoursRangeCreated: hoursRange })
+
+      // sort hours asc
+      hoursRange.sort((a, b) =>
+        (a?.start.time > b?.start.time) ? 1
+          : ((b?.start.time > a?.start.time) ? -1
+            : 0))
+
+      console.log({ hoursRangeSorted: hoursRange })
+
+      hoursRange?.forEach((h) => {
+
         this.hoursRange.push({
           dayWeek: d?.dayWeek,
           label: d?.label,
           hours: h
         });
       });
+
+      this.daysDisplay.push({
+        label: d.label,
+        dayWeek: d.dayWeek,
+        hours: hoursRange
+      }) 
+      // console.log({ hours: hours })
     });
 
+    debugger
 
 
     console.log({ hoursRange: this.hoursRange });
+    console.log({ days: this.days });
   }
 
   /**
@@ -117,17 +194,17 @@ class TimeTable {
       currentHour: this.hoursRange[hourRangeIndex]
     });
     if (isOpen) {
-      message += ` - Ferme à ${this.hoursRange[hourRangeIndex].hours.end} `;
+      message += ` - Ferme à ${this.hoursRange[hourRangeIndex].hours?.end?.label} `;
     } else {
 
-      // hourRangeIndex = (hourRangeIndex + 1) % this.hoursRange.length;
+      hourRangeIndex = (hourRangeIndex + 1) % this.hoursRange.length;
 
       for (let i = hourRangeIndex; i < this.hoursRange.length; i++) {
 
         let hours = this.hoursRange[i];
 
         if (hours?.hours?.start) {
-          message += ` - Ouvre ${hours?.label} à ${hours?.hours.start}`;
+          message += ` - Ouvre ${hours?.label} à ${hours?.hours?.start?.label}`;
           break;
         }
       }
@@ -176,9 +253,9 @@ class TimeTable {
       startTime = null,
       endTime = null;
 
-    let currentDayIndex = this.days.findIndex((d) => d.dayWeek == dayWeek);
+    let currentDayIndex = this.daysDisplay.findIndex((d) => d.dayWeek == dayWeek);
 
-    this.currentDay = this.days[currentDayIndex];
+    this.currentDay = this.daysDisplay[currentDayIndex];
 
     for (let i = 0; i < this.currentDay?.hours?.length; i++) {
       this.currentHours = this.currentDay?.hours[i];
@@ -223,8 +300,8 @@ class TimeTable {
 
 
 /**
- * usage 
- * 
+ * usage
+ *
  */
 // const timetable_status = document.querySelector("#timetable_status");
 // const timetable_table = document.querySelector("table#timetable_table");
@@ -236,32 +313,7 @@ class TimeTable {
 //     label: "Lundi",
 //     hours: [{ start: "8:00", end: "19:00" }]
 //   },
-
-//   {
-//     dayWeek: 2,
-//     label: "Mardi",
-//     hours: [{ start: "8:00", end: "19:00" }]
-//   },
-//   {
-//     dayWeek: 3,
-//     label: "Mercredi",
-//     hours: [{ start: "8:00", end: "19:00" }]
-//   },
-
-//   {
-//     dayWeek: 4,
-//     label: "Jeudi",
-//     hours: [
-//       { start: "8:00", end: "23:00" },
-//       { start: "23:50", end: "23:55" }
-//     ]
-//   },
-//   {
-//     dayWeek: 5,
-//     label: "Vendredi",
-//     hours: [{ start: "8:00", end: "19:00" }]
-//   },
-
+ 
 //   {
 //     dayWeek: 6,
 //     label: "Samedi",
@@ -278,7 +330,8 @@ class TimeTable {
 //   }
 // ];
 
-// const opening = new TimeTable({
+
+//  new TimeTable({
 //   tableEl: timetable_table,
 //   statusEl: timetable_status,
 //   days: days

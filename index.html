@@ -73,6 +73,78 @@
   </div>
 
   <script defer src="./js/timetable.js"></script>
+  <script>
+
+    const timetable_status = document.querySelector("#timetable_status");
+    const timetable_table = document.querySelector("#timetable_table");
+
+
+    // JSON Object, could be provided from an API
+    const days = [
+      {
+        dayWeek: 1,
+        label: "Lundi",
+        hours: [
+          { start: "11:00", end: "13:00" },
+          { start: "8:00", end: "9:55" },
+          { start: "19:00", end: "21:00" }
+        ]
+      },
+
+      {
+        dayWeek: 2,
+        label: "Mardi",
+        hours: [{ start: "8:00", end: "19:00" }]
+      },
+      {
+        dayWeek: 3,
+        label: "Mercredi",
+        hours: [{ start: "8:00", end: "19:00" }]
+      },
+
+      {
+        dayWeek: 4,
+        label: "Jeudi",
+        hours: [
+          { start: "12:00", end: "13:00" },
+          { start: "8:00", end: "11:00" },
+          { start: "23:50", end: "23:55" }
+        ]
+      },
+      {
+        dayWeek: 5,
+        label: "Vendredi",
+        hours: [{ start: "8:00", end: "19:00" }]
+      },
+
+      {
+        dayWeek: 6,
+        label: "Samedi",
+        hours: [
+          { start: "8:00", end: "13:00" },
+          { start: "15:00", end: "19:00" }
+        ]
+      },
+
+      {
+        dayWeek: 0,
+        label: "Dimanche",
+        hours: []
+      }
+    ];
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const opening = new TimeTable({
+        tableEl: timetable_table,
+        statusEl: timetable_status,
+        days: days
+      });
+
+    });
+
+  </script>
 </body>
 
 </html>

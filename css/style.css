@@ -1,0 +1,122 @@
+:root {
+  /* Heading font sizes */
+  --font-size-h1: 3.45rem;
+  --font-size-h2: 2.7rem;
+  --font-size-h3: 2rem;
+  --font-size-h4: 1.8rem;
+
+  /* Paragraph font sizes */
+  --font-size-text: 1.5rem;
+
+  /* Line-heights */
+  --line-height-headings: 1.5;
+  --line-height-core-heading: 1.23;
+  --line-height-paragraph: 1.7;
+  --line-height-footer: 2.5;
+
+  /* Colors */
+  --color-black: #000;
+  --color-primary: #f29100;
+  --color-secondary: #004743;
+  --color-white: #fff;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300;400;500;600&family=Poppins:wght@300;400;500;700&display=swap');
+
+
+body {
+  background-color: #1e1e1e;
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2.5rem 4rem;
+}
+
+.container {
+  background-color: white;
+  padding: 4rem 2.5rem;
+}
+
+.timetable__container {
+  margin: 0 auto;
+  max-width: 320px;
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  line-height: var(--line-height-paragraph);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  padding-bottom: 1.5rem;
+}
+
+.timetable__header {
+  padding: 0.5rem 1rem;
+  text-align: left;
+  line-height: var(line-height-core-heading);
+  font-family: "Poppins";
+  position: relative;
+  border-bottom: 1px solid #444;
+  /* min-height: 48px; */
+}
+
+.timetable__header__title {
+  position: absolute;
+  width: 40%;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  text-transform: uppercase;
+  padding: 0.25rem 1rem;
+  /* font-size: var(--font-size-h4); */
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--color-white) !important;
+  background-color: var(--color-primary);
+  display: inline-block;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.timetable__header__status {
+  /* font-size: var(--font-size-text); */
+  margin-top: 32px;
+  font-size: 14px;
+}
+
+.timetable__table {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* font-family: "Dosis"; */
+}
+
+tr.timetable__day {
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: space-between; */
+}
+
+tr.timetable__day:not(:last-child) {
+  border-bottom: 1px solid #444;
+}
+
+.timetable__day__label {
+  text-align: left;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  width: 50%;
+}
+
+.timetable__day__hours {
+  text-align: left;
+  padding: 0.5rem 1rem;
+  width: 50%;
+  /* min-width: 50%; */
+}
+
+.timetable__day__hours span {
+  display: block;
+}

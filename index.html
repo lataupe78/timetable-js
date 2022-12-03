@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>test Timetable</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <!-- HTML MARKUP -->
+    <div class="container">
+
+      <div class="timetable__container">
+        <div class="timetable__header">
+          <h3 class="timetable__header__title">Opening Hours</h3>
+          <p class="timetable__header__status" id="timetable_status">Fermé - Ouvre Vendredi à 8:00</p>
+        </div>
+        <table class="timetable__table" id="timetable_table">
+          <!--
+      <thead>
+        <tr>
+          <th>Jour</th>
+          <th>heures</th>
+        </tr>
+      </thead>
+-->
+          <tbody>
+            <tr class="timetable__day">
+              <td class="timetable__day__label">Lundi</td>
+              <td class="timetable__day__hours"><span><time datetime="8:00">8:00</time> - <time
+                    datetime="19:00">19:00</time></span></td>
+            </tr>
+            <tr class="timetable__day">
+              <td class="timetable__day__label">Mardi</td>
+              <td class="timetable__day__hours"><span><time datetime="8:00">8:00</time> - <time
+                    datetime="19:00">19:00</time></span></td>
+            </tr>
+            <tr class="timetable__day">
+              <td class="timetable__day__label">Mercredi</td>
+              <td class="timetable__day__hours"><span><time datetime="8:00">8:00</time> - <time
+                    datetime="19:00">19:00</time></span></td>
+            </tr>
+            <tr class="timetable__day">
+              <td class="timetable__day__label">Jeudi</td>
+              <td class="timetable__day__hours"><span><time datetime="8:00">8:00</time> - <time
+                    datetime="11:00">11:00</time></span></td>
+            </tr>
+            <tr class="timetable__day">
+              <td class="timetable__day__label">Vendredi</td>
+              <td class="timetable__day__hours"><span><time datetime="8:00">8:00</time> - <time
+                    datetime="19:00">19:00</time></span></td>
+            </tr>
+            <tr class="timetable__day">
+              <td class="timetable__day__label">Samedi</td>
+              <td class="timetable__day__hours"><span><time datetime="8:00">8:00</time> - <time
+                    datetime="13:00">13:00</time></span><span><time datetime="15:00">15:00</time> - <time
+                    datetime="19:00">19:00</time></span></td>
+            </tr>
+            <tr class="timetable__day">
+              <td class="timetable__day__label">Dimanche</td>
+              <td class="timetable__day__hours"> Fermé </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script defer src="./js/timetable.js"></script>
+</body>
+
+</html>
